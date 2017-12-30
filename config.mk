@@ -9,6 +9,8 @@ exif ?= 0
 help ?= 0
 verscmp ?= 1
 xinerama ?= 1
+exif ?= 0
+pthread ?= 1
 
 # Prefix for all installed files
 PREFIX ?= /usr/local
@@ -36,7 +38,7 @@ scalable_icon_dir = ${icon_dir}/scalable/apps
 
 # default CFLAGS
 CFLAGS ?= -g -O2
-CFLAGS += -Wall -Wextra -pedantic -pthread
+CFLAGS += -Wall -Wextra -pedantic
 
 # Settings for glibc >= 2.19 - may need to be adjusted for other systems
 CFLAGS += -std=c11 -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700
@@ -85,6 +87,14 @@ ifeq (${exif},1)
 	MAN_EXIF = enabled
 else
 	MAN_EXIF = disabled
+endif
+
+ifeq (${pthread},1)
+	CFLAGS += -DHAVE_LIBPTHREAD
+	LDLIBS += -lpthread
+	MAN_PTHREAD = enabled
+else
+	MAN_PTHREAD = disabled
 endif
 
 MAN_DATE ?= ${shell date '+%B %d, %Y'}

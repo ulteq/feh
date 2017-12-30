@@ -14,6 +14,7 @@ all: ${TARGETS}
 	-e 's/\$$MAN_EXIF\$$/${MAN_EXIF}/' \
 	-e 's/\$$MAN_VERSCMP\$$/${MAN_VERSCMP}/' \
 	-e 's/\$$MAN_XINERAMA\$$/${MAN_XINERAMA}/' \
+	-e 's/\$$MAN_PTHREAD\$$/${MAN_PTHREAD}/' \
 	< ${@:.1=.pre} > $@
 
 clean:
