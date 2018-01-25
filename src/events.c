@@ -285,6 +285,11 @@ static void feh_event_handle_ButtonPress(XEvent * ev)
 		/* copied from zoom_out, keyevents.c */
 		winwid->zoom = winwid->zoom * 0.80;
 
+		double zoom_to_fit = 1.0;
+		feh_calc_needed_zoom(&zoom_to_fit, winwid->im_w, winwid->im_h, winwid->w, winwid->h);
+		if (winwid->zoom < zoom_to_fit)
+			winwid->zoom = zoom_to_fit < 1.0 ? zoom_to_fit : 1.0;
+
 		if (winwid->zoom < ZOOM_MIN)
 			winwid->zoom = ZOOM_MIN;
 
@@ -538,6 +543,11 @@ static void feh_event_handle_MotionNotify(XEvent * ev)
 				winwid->zoom = winwid->old_zoom - (
 						((double) winwid->click_offset_x - (double) ev->xmotion.x)
 						/ 128.0);
+
+			double zoom_to_fit = 1.0;
+			feh_calc_needed_zoom(&zoom_to_fit, winwid->im_w, winwid->im_h, winwid->w, winwid->h);
+			if (winwid->zoom < zoom_to_fit)
+				winwid->zoom = zoom_to_fit < 1.0 ? zoom_to_fit : 1.0;
 
 			if (winwid->zoom < ZOOM_MIN)
 				winwid->zoom = ZOOM_MIN;
